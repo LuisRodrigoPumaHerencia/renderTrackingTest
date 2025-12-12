@@ -99,7 +99,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"sumax-erp-backend-tracking\"}[5m])) by (uri, method, status)",
+          "expr": "sum(rate(http_server_requests_seconds_count{job=\"sumax-erp-backend-tracking\"}[5m])) by (uri, method, status)",
           "refId": "A"
         }
       ],
@@ -162,7 +162,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{application=\"sumax-erp-backend-tracking\"}[5m])) by (le, uri, method)) * 1000",
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{job=\"sumax-erp-backend-tracking\"}[5m])) by (le, uri, method)) * 1000",
           "refId": "A"
         }
       ],
@@ -246,7 +246,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"sumax-erp-backend-tracking\", status=~\"5..\"}[5m])) by (uri, method, status)",
+          "expr": "sum(rate(http_server_requests_seconds_count{job=\"sumax-erp-backend-tracking\", status=~\"5..\"}[5m])) by (uri, method, status)",
           "refId": "A"
         }
       ],
@@ -309,7 +309,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "(hikaricp_connections_active{application=\"sumax-erp-backend-tracking\"} / hikaricp_connections_max{application=\"sumax-erp-backend-tracking\"}) * 100",
+          "expr": "(hikaricp_connections_active{job=\"sumax-erp-backend-tracking\"} / hikaricp_connections_max{job=\"sumax-erp-backend-tracking\"}) * 100",
           "refId": "A"
         }
       ],
@@ -393,7 +393,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "hikaricp_connections_active{application=\"sumax-erp-backend-tracking\"}",
+          "expr": "hikaricp_connections_active{job=\"sumax-erp-backend-tracking\"}",
           "legendFormat": "Conexiones Activas",
           "refId": "A"
         },
@@ -401,7 +401,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "hikaricp_connections_idle{application=\"sumax-erp-backend-tracking\"}",
+          "expr": "hikaricp_connections_idle{job=\"sumax-erp-backend-tracking\"}",
           "legendFormat": "Conexiones Idle",
           "refId": "B"
         },
@@ -409,7 +409,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "hikaricp_connections_max{application=\"sumax-erp-backend-tracking\"}",
+          "expr": "hikaricp_connections_max{job=\"sumax-erp-backend-tracking\"}",
           "legendFormat": "Conexiones Máximas",
           "refId": "C"
         },
@@ -417,7 +417,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "hikaricp_connections_pending{application=\"sumax-erp-backend-tracking\"}",
+          "expr": "hikaricp_connections_pending{job=\"sumax-erp-backend-tracking\"}",
           "legendFormat": "Conexiones Pendientes",
           "refId": "D"
         }
@@ -502,7 +502,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "hikaricp_connections_creation_seconds_sum{application=\"sumax-erp-backend-tracking\"} / hikaricp_connections_creation_seconds_count{application=\"sumax-erp-backend-tracking\"} * 1000",
+          "expr": "hikaricp_connections_creation_seconds_sum{job=\"sumax-erp-backend-tracking\"} / hikaricp_connections_creation_seconds_count{job=\"sumax-erp-backend-tracking\"} * 1000",
           "legendFormat": "Tiempo Promedio de Creación",
           "refId": "A"
         },
@@ -510,7 +510,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "hikaricp_connections_usage_seconds_sum{application=\"sumax-erp-backend-tracking\"} / hikaricp_connections_usage_seconds_count{application=\"sumax-erp-backend-tracking\"} * 1000",
+          "expr": "hikaricp_connections_usage_seconds_sum{job=\"sumax-erp-backend-tracking\"} / hikaricp_connections_usage_seconds_count{job=\"sumax-erp-backend-tracking\"} * 1000",
           "legendFormat": "Tiempo Promedio de Uso",
           "refId": "B"
         }
@@ -595,7 +595,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "sum(rate(http_client_requests_seconds_count{application=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method, status)",
+          "expr": "sum(rate(http_client_requests_seconds_count{job=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method, status)",
           "refId": "A"
         }
       ],
@@ -658,7 +658,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "histogram_quantile(0.95, sum(rate(http_client_requests_seconds_bucket{application=\"sumax-erp-backend-tracking\"}[5m])) by (le, client_name, method)) * 1000",
+          "expr": "histogram_quantile(0.95, sum(rate(http_client_requests_seconds_bucket{job=\"sumax-erp-backend-tracking\"}[5m])) by (le, client_name, method)) * 1000",
           "refId": "A"
         }
       ],
@@ -742,7 +742,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "sum(rate(http_client_requests_seconds_count{application=\"sumax-erp-backend-tracking\", status=~\"5..\"}[5m])) by (client_name, method, status)",
+          "expr": "sum(rate(http_client_requests_seconds_count{job=\"sumax-erp-backend-tracking\", status=~\"5..\"}[5m])) by (client_name, method, status)",
           "refId": "A"
         }
       ],
@@ -805,7 +805,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "sum(rate(http_client_requests_seconds_count{application=\"sumax-erp-backend-tracking\", status=~\"4..\"}[5m])) by (client_name, method)",
+          "expr": "sum(rate(http_client_requests_seconds_count{job=\"sumax-erp-backend-tracking\", status=~\"4..\"}[5m])) by (client_name, method)",
           "refId": "A"
         }
       ],
@@ -860,7 +860,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"sumax-erp-backend-tracking\"}[5m]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{job=\"sumax-erp-backend-tracking\"}[5m]))",
           "refId": "A"
         }
       ],
@@ -915,7 +915,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{application=\"sumax-erp-backend-tracking\"}[5m])) by (le)) * 1000",
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{job=\"sumax-erp-backend-tracking\"}[5m])) by (le)) * 1000",
           "refId": "A"
         }
       ],
@@ -974,7 +974,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"sumax-erp-backend-tracking\", status=~\"5..\"}[5m]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{job=\"sumax-erp-backend-tracking\", status=~\"5..\"}[5m]))",
           "refId": "A"
         }
       ],
@@ -1029,7 +1029,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "hikaricp_connections_active{application=\"sumax-erp-backend-tracking\"}",
+          "expr": "hikaricp_connections_active{job=\"sumax-erp-backend-tracking\"}",
           "refId": "A"
         }
       ],
@@ -1113,7 +1113,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "(sum(rate(http_client_requests_seconds_sum{application=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method) / sum(rate(http_client_requests_seconds_count{application=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method)) * 1000",
+          "expr": "(sum(rate(http_client_requests_seconds_sum{job=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method) / sum(rate(http_client_requests_seconds_count{job=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method)) * 1000",
           "legendFormat": "{{client_name}} - {{method}} (Promedio)",
           "refId": "A"
         }
@@ -1198,7 +1198,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "http_client_requests_seconds_max{application=\"sumax-erp-backend-tracking\"} * 1000",
+          "expr": "http_client_requests_seconds_max{job=\"sumax-erp-backend-tracking\"} * 1000",
           "legendFormat": "{{client_name}} - {{method}} (Máximo)",
           "refId": "A"
         }
@@ -1266,7 +1266,7 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "(sum(rate(http_client_requests_seconds_sum{application=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method) / sum(rate(http_client_requests_seconds_count{application=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method)) * 1000",
+          "expr": "(sum(rate(http_client_requests_seconds_sum{job=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method) / sum(rate(http_client_requests_seconds_count{job=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method)) * 1000",
           "refId": "A"
         }
       ],
