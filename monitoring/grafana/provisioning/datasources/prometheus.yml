@@ -1,0 +1,13 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    # ⚠️ IMPORTANTE: Después de desplegar en Render, actualiza esta URL
+    # Opción 1: Edita manualmente en Grafana UI (Configuration → Data Sources)
+    # Opción 2: Edita este archivo con la URL de tu Prometheus en Render y haz redeploy
+    # Ejemplo: https://prometheus-tracking.onrender.com
+    url: http://localhost:9090
+    isDefault: true
+    editable: true

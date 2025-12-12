@@ -1,0 +1,23 @@
+# Render.com configuration
+# Render detectará automáticamente este archivo al conectar el repositorio
+
+services:
+  - type: web
+    name: prometheus-tracking
+    env: docker
+    dockerfilePath: ./monitoring/Dockerfile.prometheus
+    dockerContext: ./monitoring
+    healthCheckPath: /-/healthy
+    plan: free
+
+  - type: web
+    name: grafana-tracking
+    env: docker
+    dockerfilePath: ./monitoring/Dockerfile.grafana
+    dockerContext: ./monitoring
+    envVars:
+      - key: GF_SECURITY_ADMIN_PASSWORD
+        value: admin123
+    healthCheckPath: /api/health
+    plan: free
+

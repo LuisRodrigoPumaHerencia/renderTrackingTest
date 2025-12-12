@@ -1,0 +1,12 @@
+FROM grafana/grafana:latest
+
+# Copiar configuración de provisioning
+COPY grafana/provisioning /etc/grafana/provisioning
+
+# Variables de entorno
+ENV GF_SECURITY_ADMIN_PASSWORD=admin123
+ENV GF_INSTALL_PLUGINS=""
+
+# Exponer puerto
+EXPOSE 3000
+
