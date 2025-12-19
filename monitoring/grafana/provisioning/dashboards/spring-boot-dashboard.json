@@ -84,7 +84,11 @@
       "id": 1,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -99,7 +103,8 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "sum(rate(http_server_requests_seconds_count{job=\"sumax-erp-backend-tracking\"}[5m])) by (uri, method, status)",
+          "expr": "sum(rate(http_server_requests_seconds_count{job=\"sumax-erp-backend-tracking\", uri!~\"/actuator.*\"}[5m])) by (uri, method, status)",
+          "legendFormat": "{{uri}}",
           "refId": "A"
         }
       ],
@@ -145,16 +150,20 @@
       },
       "id": 2,
       "options": {
-        "displayMode": "gradient",
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"],
-          "fields": ""
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "showUnfilled": true
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
       "pluginVersion": "10.0.0",
       "targets": [
@@ -162,12 +171,13 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{job=\"sumax-erp-backend-tracking\"}[5m])) by (le, uri, method)) * 1000",
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{job=\"sumax-erp-backend-tracking\", uri!~\"/actuator.*\"}[5m])) by (le, uri, method)) * 1000",
+          "legendFormat": "{{uri}}",
           "refId": "A"
         }
       ],
       "title": "Latencia P95 por Endpoint (ms)",
-      "type": "bargauge"
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -231,7 +241,10 @@
       "id": 3,
       "options": {
         "legend": {
-          "calcs": ["sum", "lastNotNull"],
+          "calcs": [
+            "sum",
+            "lastNotNull"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -260,29 +273,51 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
-          "max": 100,
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 70
-              },
-              {
-                "color": "red",
-                "value": 90
               }
             ]
           },
-          "unit": "percent"
+          "unit": "ms",
+          "max": null,
+          "min": null
         },
         "overrides": []
       },
@@ -294,14 +329,20 @@
       },
       "id": 4,
       "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"],
-          "fields": ""
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
       "pluginVersion": "10.0.0",
       "targets": [
@@ -309,12 +350,13 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "(hikaricp_connections_active{job=\"sumax-erp-backend-tracking\"} / hikaricp_connections_max{job=\"sumax-erp-backend-tracking\"}) * 100",
+          "expr": "(sum(rate(http_client_requests_seconds_sum{job=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method) / sum(rate(http_client_requests_seconds_count{job=\"sumax-erp-backend-tracking\"}[5m])) by (client_name, method)) * 1000",
+          "legendFormat": "{{client_name}} - {{method}}",
           "refId": "A"
         }
       ],
-      "title": "Uso del Pool de Conexiones (%)",
-      "type": "gauge"
+      "title": "Tiempo Promedio Proxies por Cliente (ms)",
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -378,7 +420,11 @@
       "id": 5,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -487,7 +533,11 @@
       "id": 6,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -580,7 +630,11 @@
       "id": 7,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -647,7 +701,9 @@
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": ""
         },
         "showUnfilled": true
@@ -727,7 +783,10 @@
       "id": 9,
       "options": {
         "legend": {
-          "calcs": ["sum", "lastNotNull"],
+          "calcs": [
+            "sum",
+            "lastNotNull"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -794,7 +853,9 @@
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": ""
         },
         "showUnfilled": true
@@ -849,7 +910,9 @@
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": ""
         },
         "textMode": "auto"
@@ -904,7 +967,9 @@
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": ""
         },
         "textMode": "auto"
@@ -963,7 +1028,9 @@
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": ""
         },
         "textMode": "auto"
@@ -1018,7 +1085,9 @@
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": ""
         },
         "textMode": "auto"
@@ -1098,7 +1167,11 @@
       "id": 15,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -1183,7 +1256,11 @@
       "id": 16,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -1255,7 +1332,9 @@
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": ""
         },
         "showUnfilled": true
@@ -1277,7 +1356,10 @@
   "refresh": "10s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["spring-boot", "monitoring"],
+  "tags": [
+    "spring-boot",
+    "monitoring"
+  ],
   "templating": {
     "list": []
   },
@@ -1289,7 +1371,6 @@
   "timezone": "",
   "title": "Spring Boot - Endpoints, BD y Proxies",
   "uid": "spring-boot-dashboard",
-  "version": 1,
+  "version": 8,
   "weekStart": ""
 }
-
